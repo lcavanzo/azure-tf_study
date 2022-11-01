@@ -1,0 +1,31 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: acrdemo2ss-deployment
+  labels:
+    app: acrdemo2ss
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: acrdemo2ss
+  template:
+    metadata:
+      labels:
+        app: acrdemo2ss
+    spec:
+      containers:
+        - name: acrdemo2ss-vn
+          image: acrdemo02.azurecr.io/app3/acr-app3:v1
+          imagePullPolicy: Always
+          ports:
+            - containerPort: 80
+      imagePullSecrets:   # Update Image Pull Secret Name we creted
+        - name: acrdemo02-secret  
+# To schedule pods on Azure Virtual Nodes            
+      nodeSelector:
+        kubernetes.io/role: agent
+        type: virtual-kubelet
+      tolerations:
+      - key: virtual-kubelet.io/provider
+        operator: Exists

@@ -34,6 +34,16 @@ az aks install-cli
 # Configure Cluster Creds (kube config)
 az aks get-credentials --resource-group aks-rg1 --name aksdemo1
 
+# Replace Cluster, Resource Group and ACR Repo Name, add registry to a cluster
+az aks update -n myAKSCluster -g myResourceGroup --attach-acr <acr-name>
+az aks update -n aksdemo2 -g aks-rg2 --attach-acr $ACR_NAME
+
+# Detach ACR with AKS Cluster
+az aks update -n aksdemo2 -g aks-rg2 --detach-acr $ACR_NAME
+
+# Delete ACR Repository
+Go To Services -> Container Registries -> acrforaksdemo2 -> Delete it
+
 # List AKS Nodes
 kubectl get nodes 
 kubectl get nodes -o wide
